@@ -1,36 +1,35 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var sideLength = 100;
+var pipeHoleLength = sideLength / 4;
 var fps = 100;
 var hasLost = false;
 var firstPlay = true;
 var score;
-
-var scl = window.innerHeight < window.innerWidth ? Math.floor(window.innerHeight / sideLength):
-                                                   Math.floor(window.innerWidth / sideLength);
-console.log(scl);
 var bird;
 var pipes;
-var pipeHoleSize = 25 * scl;
+var scl = window.innerHeight < window.innerWidth ? Math.floor(window.innerHeight / sideLength):
+                                                   Math.floor(window.innerWidth / sideLength);
 
-canvas.width = sideLength * scl - scl;
-canvas.height = sideLength * scl - scl;
+canvas.width = scl * sideLength - 1;
+canvas.height = scl * sideLength - 1;
 
 function mainLoop() {
     setTimeout(function () {
         window.requestAnimationFrame(mainLoop);
         ctx.fillStyle = '#696969';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         if (firstPlay) {
             drawStartScreen();
-        } else if (hasLost) {
+        } else if (!hasLost) {
+            run();
+        } else {
             if (bird.outOfBounds()) {
                 drawLostScreen()
             } else {
                 death();
             }
-        } else {
-            run();
         }
     }, 1000 / fps)
 }
@@ -38,6 +37,7 @@ function mainLoop() {
 function run() {
     bird.update();
     bird.draw();
+
     for (var i = 0; i < pipes.length; i++) {
         pipes[i].update();
         pipes[i].draw();
@@ -46,23 +46,21 @@ function run() {
         }
 
         if (pipes[i].passedScreen()) {
-            score++;
             pipes[i].newPipe();
+            score++;
         }
     }
-    if (bird.outOfBounds()) {
-        hasLost = true;
-    }
+
+    if (bird.outOfBounds()) hasLost = true;
 }
 
 function drawStartScreen() {
-    ctx.strokeStyle = 'white';
-    ctx.fillStyle = 'white';
-
     ctx.font = '40px Helvetica';
+    ctx.strokeStyle = 'white';
     ctx.strokeText('Flappie Berd', 50, 100);
 
     ctx.font = '30px Helvetica';
+    ctx.fillStyle = 'white';
     ctx.fillText('Press Space to jump', 50, canvas.height / 2);
     ctx.fillText('and enter to start!', 50, canvas.height / 2 + 40);
 }
@@ -90,7 +88,7 @@ function setUp() {
     bird = new Bird();
     pipes = [];
     for (var i = 0; i < 3; i++) {
-        pipes.push(new Pipe(canvas.width * (1 + i/3)));
+        pipes.push(new Pipe(sideLength * (1.5 + i/3)));
     }
 }
 

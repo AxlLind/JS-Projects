@@ -1,25 +1,25 @@
 class Pipe {
     constructor(x) {
-        this.top = Math.random() * (canvas.height - pipeHoleSize);
-        this.bottom = this.top + pipeHoleSize;
+        this.top = Math.random() * (sideLength - pipeHoleLength);
+        this.bottom = this.top + pipeHoleLength;
         this.x = x;
-        this.w = 2 * scl;
+        this.w = 2;
 
         this.draw = function () {
             ctx.strokeStyle = 'white';
             ctx.lineWidth = 3;
-            ctx.strokeRect(this.x, 0, this.w, this.top);
-            ctx.strokeRect(this.x, this.bottom, this.w, canvas.height - this.bottom);
+            ctx.strokeRect(this.x * scl, 0, this.w * scl, this.top * scl);
+            ctx.strokeRect(this.x * scl, this.bottom * scl, this.w * scl, scl * (sideLength - this.bottom));
         };
 
         this.update = function () {
-            this.x -= 0.7 * scl;
+            this.x -= 0.8;
         };
 
         this.newPipe = function () {
-            this.top = Math.random() * (canvas.height - pipeHoleSize);
-            this.bottom = this.top + pipeHoleSize;
-            this.x = canvas.width;
+            this.top = Math.random() * (sideLength - pipeHoleLength);
+            this.bottom = this.top + pipeHoleLength;
+            this.x = sideLength;
         };
 
         this.passedScreen = function () {

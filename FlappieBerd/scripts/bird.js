@@ -1,32 +1,37 @@
 class Bird {
     constructor() {
-        this.x = 7 * scl;
-        this.y = canvas.height / 2;
-        this.r = 3 * scl;
+        this.x = 7;
+        this.y = sideLength / 2;
+        this.r = 3;
         this.vel = 0;
 
         this.draw = function() {
+            /*
             ctx.beginPath();
-            ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+            ctx.arc(this.x * scl, this.y * scl, this.r * scl, 0, Math.PI * 2);
             ctx.fillStyle = 'white';
             ctx.fill();
+            */
+            var img = new Image();
+            img.src = 'bird.png';
+            ctx.drawImage(img, this.x * scl, this.y * scl, 2 * this.r * scl, 2 * this.r * scl);
         };
 
         this.update = function() {
-            this.vel += 0.5;
+            this.vel += 0.13;
             this.y += this.vel;
         };
 
         this.jump = function() {
-            this.vel = -1.5 * scl;
+            this.vel = -2;
         };
 
         this.outOfBounds = function() {
-            return this.y > canvas.height || this.y < 0;
+            return (this.y + this.r) > sideLength;
         };
 
         this.touchesPipe = function(pipe) {
-            if (pipe.x > bird.x || pipe.x + pipe.w < this.x) {
+            if (pipe.x > this.x + this.r || pipe.x + pipe.w < this.x - this.r) {
                 return false;
             }
             return this.y > pipe.bottom || this.y < pipe.top;
