@@ -7,4 +7,4 @@ So far includes the following:
 * Flappy Bird clone
 * Fractal tree generator
 
-https://axllind.github.io/Javascript-Projects/
+https://axllind.github.io/JS-Projects/
