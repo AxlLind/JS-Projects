@@ -6,15 +6,15 @@ class Bird {
         this.vel = 0;
 
         this.draw = function() {
-            /*
             ctx.beginPath();
             ctx.arc(this.x * scl, this.y * scl, this.r * scl, 0, Math.PI * 2);
             ctx.fillStyle = 'white';
             ctx.fill();
-            */
+            /*
             var img = new Image();
             img.src = 'bird.png';
             ctx.drawImage(img, this.x * scl, this.y * scl, 2 * this.r * scl, 2 * this.r * scl);
+            */
         };
 
         this.update = function() {
